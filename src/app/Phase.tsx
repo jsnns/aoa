@@ -24,21 +24,21 @@ export const Phase: React.FC<Props> = async ({ phase }) => {
         <PhaseColumn phase={phase} />
       </div>
 
-      <Link href={`/phase/${phase.slug}`}>
-        <Card className="py-3 px-5 md:hover:absolute bottom-0 left-0 right-0 group flex flex-col gap-5 shrink-0">
-          <div className="md:group-hover:flex hidden max-w-full">
+      <Card className="py-5 px-5 group flex flex-col gap-5 shrink-0">
+        <Link href={`/phase/${phase.slug}`}>
+          <div className="max-w-full p-1 -m-1 hover:ring-black hover:ring-[1px] hover:ring-opacity-25 rounded-md">
             <PhasePredictionChart
               phase={phase}
               className="h-24 w-full overflow-x-auto"
               predictionData={predictions}
             />
           </div>
+        </Link>
 
-          <div className="flex flex-row justify-between items-center">
-            <PhasePrediction phase={phase} />
-          </div>
-        </Card>
-      </Link>
+        <div className="flex flex-row justify-between items-center">
+          <PhasePrediction phase={phase} />
+        </div>
+      </Card>
     </div>
   );
 };
