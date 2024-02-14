@@ -20,8 +20,8 @@ export const phases = [
   {
     supabaseId: 2,
     sequence: 2,
-    slug: "physical-agi",
-    title: "Physical AGI",
+    slug: "embodied-agi",
+    title: "Embodied AGI",
     summary:
       "A human level brain, embodied by bi-pedal robots, smart appliances, cars, and drones.",
     how_it_starts: "",
