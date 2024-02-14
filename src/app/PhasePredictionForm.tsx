@@ -49,7 +49,7 @@ export const PhasePredictionForm: React.FC<PhasePredictionFormProps> = ({
       <form
         // grabbing first argument from handleSubmit since submit is a server action and cannot take the form data parameters that follow
         onSubmit={form.handleSubmit((d) => submit({ ...d, phaseId: 0 }))}
-        className="space-y-8"
+        className="flex flex-col gap-4"
       >
         <FormField
           control={form.control}
@@ -98,7 +98,9 @@ export const PhasePredictionForm: React.FC<PhasePredictionFormProps> = ({
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" className="mt-8">
+          Submit
+        </Button>
       </form>
     </Form>
   );

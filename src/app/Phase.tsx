@@ -35,7 +35,7 @@ export const Phase: React.FC<Props> = async ({ phase }) => {
           </div>
         </Link>
 
-        <div className="flex flex-row justify-between items-center">
+        <div className="flex flex-row justify-between items-end">
           <PhasePrediction phase={phase} />
         </div>
       </Card>

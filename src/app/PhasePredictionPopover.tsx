@@ -2,16 +2,16 @@
 
 import { Button } from "@/components/ui/button";
 import {
-  PhasePredictionForm,
-  PhasePredictionFormProps,
-} from "./PhasePredictionForm";
-import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useEffect, useState } from "react";
 import { CheckCircle } from "react-feather";
+import {
+  PhasePredictionForm,
+  PhasePredictionFormProps,
+} from "./PhasePredictionForm";
 
 interface Props {
   phaseId: number;
@@ -48,11 +48,11 @@ export const PhasePredictionPopover: React.FC<Props> = ({
   }
 
   return (
-    <Popover>
+    <Popover modal>
       <PopoverTrigger asChild>
         <Button>Predict</Button>
       </PopoverTrigger>
-      <PopoverContent className="m-6">
+      <PopoverContent className="" side="top" align="end" sideOffset={-40}>
         <PhasePredictionForm
           submit={(a) => {
             submit({ ...a, phaseId });
