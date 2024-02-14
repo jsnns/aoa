@@ -5,6 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.DOMAIN || ""),
   title: "Phases of AGI",
   description:
     "Explore a proposed framework for the phases of AGI and predict when they might arrive.",

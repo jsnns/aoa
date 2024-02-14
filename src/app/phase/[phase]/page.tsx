@@ -46,6 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
+    metadataBase: new URL(process.env.DOMAIN || ""),
     title: phase.title,
     description: phase.summary,
     openGraph: {
