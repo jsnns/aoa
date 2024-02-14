@@ -2,6 +2,7 @@ export const phases = [
   {
     supabaseId: 1,
     sequence: 1,
+    slug: "digital-agi",
     title: "Digital AGI",
     summary:
       "A human level brain, run in the cloud, accessible by API and chat.",
@@ -19,6 +20,7 @@ export const phases = [
   {
     supabaseId: 2,
     sequence: 2,
+    slug: "physical-agi",
     title: "Physical AGI",
     summary: "",
     how_it_starts: "",
@@ -31,6 +33,7 @@ export const phases = [
   {
     supabaseId: 3,
     sequence: 2,
+    slug: "industrial-agi",
     title: "Industrial AGI",
     summary: "",
     how_it_starts: "",
@@ -43,3 +46,7 @@ export const phases = [
 ];
 
 export type Phase = (typeof phases)[number];
+
+export const getPhaseBySlug = (slug: string) => {
+  return phases.find((phase) => phase.slug === slug);
+};

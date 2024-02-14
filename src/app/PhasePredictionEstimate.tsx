@@ -34,6 +34,13 @@ export const PhasePredictionEstimate: React.FC<Props> = ({
       <br />
       <span className="text-xl">
         {arrival.toFormat("MMM")} {arrival.year}
+      </span>{" "}
+      <span className="text-sm opacity-50">
+        {updatedPredictions.length.toLocaleString("en-us", {
+          maximumFractionDigits: 0,
+          compactDisplay: "short",
+        })}
+        x
       </span>
     </p>
   );

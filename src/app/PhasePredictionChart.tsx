@@ -9,6 +9,7 @@ import {
   predictionsToDurationFromNow,
 } from "@/lib/predictions/aggregate";
 import { useLivePredictions } from "@/lib/predictions/livePredictions";
+import { removeOutlierPredictions } from "@/lib/predictions/quality";
 import { cn } from "@/lib/utils";
 import { DateTime } from "luxon";
 import { BallChart, BallChartColumn } from "./BallChart";
@@ -17,6 +18,7 @@ interface Props {
   phase: Phase;
   className?: string;
   predictionData: Tables<"predictions">[] | null;
+  thresholds?: BallChatBucketThresholds;
 }
 
 export const bucketByMonthAndYear = (
@@ -134,23 +136,30 @@ export const groupByDecade = (
   });
 };
 
+interface BallChatBucketThresholds {
+  decade: number;
+  year: number;
+  quarter: number;
+}
+
 export const fitBuckets = (
   buckets: { month: number; year: number; count: number }[],
-  averagePrediction: DateTime
+  averagePrediction: DateTime,
+  thresholds: BallChatBucketThresholds = {
+    decade: 120,
+    year: 60,
+    quarter: 24,
+  }
 ): BallChartColumn[] => {
-  // over 60 buckets get grouped by year
-  // over 24 buckets get grouped by quarter
-  // over 12 buckets get grouped by month
-
-  if (buckets.length > 120) {
+  if (buckets.length > thresholds.decade) {
     return groupByDecade(buckets, averagePrediction);
   }
 
-  if (buckets.length > 60) {
+  if (buckets.length > thresholds.year) {
     return groupByYear(buckets, averagePrediction);
   }
 
-  if (buckets.length > 24) {
+  if (buckets.length > thresholds.quarter) {
     return groupByQuarter(buckets, averagePrediction);
   }
 
@@ -188,6 +197,7 @@ export const PhasePredictionChart: React.FC<Props> = ({
   phase,
   className,
   predictionData,
+  thresholds,
 }) => {
   const predictions = useLivePredictions(phase.supabaseId, predictionData);
 
@@ -199,8 +209,9 @@ export const PhasePredictionChart: React.FC<Props> = ({
     averageDuration(predictionsToDurationFromNow(predictions))
   );
 
-  const buckets =
-    bucketByMonthAndYear(predictions).filter(bucketIsNotInThePast);
+  const buckets = bucketByMonthAndYear(
+    removeOutlierPredictions(predictions)
+  ).filter(bucketIsNotInThePast);
 
   buckets.sort((a, b) => {
     if (a.year === b.year) {
@@ -209,7 +220,7 @@ export const PhasePredictionChart: React.FC<Props> = ({
     return a.year - b.year;
   });
 
-  const columns = fitBuckets(buckets, averagePrediction);
+  const columns = fitBuckets(buckets, averagePrediction, thresholds);
 
   return (
     <div className={cn(className)}>
