@@ -9,6 +9,9 @@ export default function Home() {
     <main className="flex justify-center flex-col h-[100svh] overflow-y-hidden">
       <ScrollAdapter />
 
+      {/* SEO */}
+      <h1 className="hidden">Three upcoming Eras of AI</h1>
+
       <div className="grid grid-cols-3 h-[100svh] p-3 gap-3 w-[270vw] md:w-screen md:min-w-[1500px]">
         {phases.map((phase) => (
           <Phase phase={phase} key={phase.title} />

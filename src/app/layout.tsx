@@ -14,6 +14,8 @@ export const metadata: Metadata = {
     images: ["/og?phase=digital-agi"],
     description:
       "Explore a proposed framework for the eras of AI and predict when they will arrive.",
+    type: "website",
+    url: new URL(process.env.DOMAIN || ""),
   },
 };
 
