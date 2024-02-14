@@ -16,7 +16,7 @@ export const Phase: React.FC<Props> = async ({ phase }) => {
 
   return (
     <div
-      className="flex flex-col justify-between max-h-full overflow-y-hidden relative h-full"
+      className="flex flex-col justify-between max-h-full overflow-y-hidden relative h-full max-w-[90vw]"
       key={phase.sequence}
     >
       <div className="p-2 shrink flex overflow-y-auto">
