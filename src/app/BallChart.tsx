@@ -8,6 +8,7 @@ import {
 import { cn } from "@/lib/utils";
 import { TooltipTrigger } from "@radix-ui/react-tooltip";
 import { useMeasure } from "@uidotdev/usehooks";
+import "./ballChart.css";
 
 interface Props {
   data: BallChartColumn[];
@@ -30,6 +31,10 @@ export const BallChart: React.FC<Props> = ({ data }) => {
     (height || 0) / (ballSize + ballSpacing)
   );
 
+  if (data.length === 0 || data.every((c) => c.value === 0)) {
+    return null;
+  }
+
   // normalize columns
   const max = Math.max(...data.map((c) => c.value));
   const columns = data.map((column) => ({
@@ -39,6 +44,11 @@ export const BallChart: React.FC<Props> = ({ data }) => {
       column.value
     ),
   }));
+
+  // calculate max ball animation delay
+  const maxAnimationDelay = Math.max(
+    ...columns.map((column) => column.value * 100)
+  );
 
   return (
     <div
@@ -54,12 +64,13 @@ export const BallChart: React.FC<Props> = ({ data }) => {
                 className="flex flex-col items-center"
                 style={{ gap: ballSpacing }}
               >
-                {Array.from({ length: column.value }).map((_, i) => (
+                {Array.from({ length: column.value }).map((_, j) => (
                   <Ball
-                    key={i}
+                    key={j}
                     size={ballSize}
                     color="black"
-                    className="opacity-25"
+                    className="opacity-25 ball-enter"
+                    style={{ animationDelay: `${(column.value - j) * 100}ms` }}
                   />
                 ))}
 
@@ -69,17 +80,19 @@ export const BallChart: React.FC<Props> = ({ data }) => {
 
                 {column.annotate && (
                   <div
-                    className="h-full w-[2px] bg-black rounded-full absolute"
+                    className="h-full w-[2px] bg-black rounded-full absolute annotation-enter"
                     style={{
                       bottom: ballSpacing,
                       top: ballSpacing,
+                      animationDelay: `${maxAnimationDelay + 350 + 400}ms`,
                     }}
                   >
                     <div
-                      className="bg-black absolute top-0 text-[0.5rem] py-0.5 px-1 text-white"
+                      className="bg-black absolute top-0 text-[0.5rem] py-0.5 px-1 text-white annotation-enter"
                       style={{
                         [i < columns.length / 2 ? "left" : "right"]:
                           ballSpacing,
+                        animationDelay: `${maxAnimationDelay + 350 + 400}ms`,
                       }}
                     >
                       {column.annotate.text}
@@ -100,11 +113,12 @@ export const BallChart: React.FC<Props> = ({ data }) => {
   );
 };
 
-const Ball: React.FC<{ size: number; color: string; className?: string }> = ({
-  size,
-  color,
-  className,
-}) => {
+const Ball: React.FC<{
+  size: number;
+  color: string;
+  className?: string;
+  style?: React.CSSProperties;
+}> = ({ size, color, className, style }) => {
   return (
     <div
       className={cn("rounded-full shrink-0 aspect-square", className || "")}
@@ -112,6 +126,7 @@ const Ball: React.FC<{ size: number; color: string; className?: string }> = ({
         width: size,
         height: size,
         backgroundColor: color,
+        ...style,
       }}
     />
   );

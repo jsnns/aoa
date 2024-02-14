@@ -1,0 +1,28 @@
+.ball-enter {
+  animation: ball-enter 0.4s cubic-bezier(0.11, 0.05, 0.9, 1.15) forwards;
+  transform: translateY(-100vh);
+}
+
+@keyframes ball-enter {
+  /* the ball will enter from the top only being position relative at the end */
+  0% {
+    transform: translateY(-100vh);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.annotation-enter {
+  animation: chart-annotation 0.4s cubic-bezier(0.11, 0.05, 0.9, 1.15) forwards;
+  transform: translateY(-100vh);
+}
+
+@keyframes chart-annotation {
+  0% {
+    transform: translateY(-100vh);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}

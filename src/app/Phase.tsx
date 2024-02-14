@@ -26,7 +26,7 @@ export const Phase: React.FC<Props> = async ({ phase }) => {
 
       <Card className="py-5 px-5 rounded-xl group flex flex-col gap-5 shrink-0">
         <Link href={`/phase/${phase.slug}`}>
-          <div className="max-w-full p-1 hover:ring-black hover:ring-[1px] hover:ring-opacity-25 rounded-md">
+          <div className="max-w-full">
             <PhasePredictionChart
               phase={phase}
               className="h-24 w-full overflow-x-auto"
