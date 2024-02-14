@@ -16,15 +16,15 @@ export const Phase: React.FC<Props> = async ({ phase }) => {
   const predictions = await getPredictions(phase.supabaseId);
 
   return (
-    <div
-      className="flex flex-col justify-between max-h-full overflow-y-hidden relative h-full max-w-[90vw]"
+    <Card
+      className="flex flex-col justify-between max-h-full overflow-y-hidden relative h-full max-w-[90vw] p-3 rounded-xl"
       key={phase.sequence}
     >
       <div className="p-2 shrink flex overflow-y-auto">
         <PhaseColumn phase={phase} fullDetails={!!phase.culture} />
       </div>
 
-      <Card className="py-5 px-5 rounded-xl group flex flex-col gap-5 shrink-0">
+      <div className="py-5 px-5 group flex flex-col gap-5 shrink-0">
         <Link href={`/phase/${phase.slug}`}>
           <div className="max-w-full">
             <PhasePredictionChart
@@ -38,7 +38,7 @@ export const Phase: React.FC<Props> = async ({ phase }) => {
         <div className="flex flex-row justify-between items-end">
           <PhasePrediction phase={phase} />
         </div>
-      </Card>
-    </div>
+      </div>
+    </Card>
   );
 };
