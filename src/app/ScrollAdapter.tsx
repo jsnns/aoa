@@ -10,6 +10,13 @@ export const ScrollAdapter: React.FC<Props> = ({}) => {
     const reverseScroll = (e: WheelEvent) => {
       if (e.deltaY === 0) return;
 
+      // if the target or parent has a scrollbar, don't prevent default
+      let target = e.target as HTMLElement;
+      while (target !== document.body) {
+        if (target.scrollHeight > target.clientHeight) return;
+        target = target.parentElement!;
+      }
+
       e.preventDefault();
       const main = document.querySelector("main");
       if (main) {

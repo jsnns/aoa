@@ -6,15 +6,17 @@ interface Props {
 }
 
 export const PhaseColumn: React.FC<Props> = ({ phase, fullDetails }) => {
-  const headingStyle = "text-xs opacity-50 mt-3";
+  const headingStyle = "opacity-40 mt-5";
 
   return (
-    <div className="">
-      <h2 className="text-xl font-semibold">{phase.title}</h2>
-      <p className="">{phase.summary}</p>
+    <div className="flex flex-col gap-2">
+      <h2 className="font-semibold opacity-40">
+        Era {phase.sequence}: {phase.title}
+      </h2>
+      <p className="font-semibold">{phase.summary}</p>
 
       {fullDetails && (
-        <div className="flex flex-col text-sm">
+        <div className="flex flex-col text-sm mt-3">
           <h3 className={headingStyle}>How it starts</h3>
           <p>{phase.how_it_starts}</p>
 

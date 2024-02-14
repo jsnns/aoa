@@ -44,6 +44,11 @@ export const PhasePredictionForm: React.FC<PhasePredictionFormProps> = ({
     },
   });
 
+  const duration = DateTime.fromObject({
+    year: form.getValues("year"),
+    month: form.getValues("month"),
+  }).diff(DateTime.now(), "months");
+
   return (
     <Form {...form}>
       <form
@@ -64,6 +69,7 @@ export const PhasePredictionForm: React.FC<PhasePredictionFormProps> = ({
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="month"
@@ -98,8 +104,15 @@ export const PhasePredictionForm: React.FC<PhasePredictionFormProps> = ({
             </FormItem>
           )}
         />
-        <Button type="submit" className="mt-8">
-          Submit
+
+        <Button
+          type="submit"
+          className="mt-8"
+          disabled={!form.formState.isValid}
+        >
+          {!form.formState.isValid && "Submit Prediction"}
+          {form.formState.isValid &&
+            `Submit prediction for ${duration.toFormat("M")} months`}
         </Button>
       </form>
     </Form>
