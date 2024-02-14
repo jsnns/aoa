@@ -47,3 +47,11 @@ export const furthestPrediction = (predictions: Tables<"predictions">[]) => {
 
   return datetimeFromAverageDuration(max);
 };
+
+export const averagePredictionDateTime = (
+  predictions: Tables<"predictions">[]
+) => {
+  const durations = predictionsToDurationFromNow(predictions);
+  const average = averageDuration(durations);
+  return datetimeFromAverageDuration(average);
+};

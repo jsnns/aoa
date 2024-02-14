@@ -68,30 +68,42 @@ export const BallChart: React.FC<Props> = ({ data }) => {
                   <Ball
                     key={j}
                     size={ballSize}
-                    color="black"
-                    className="opacity-25 ball-enter"
+                    color=""
+                    className="opacity-75 ball-enter bg-primary"
                     style={{ animationDelay: `${(column.value - j) * 100}ms` }}
                   />
                 ))}
 
                 {column.value === 0 && (
-                  <Ball size={ballSize} color="black" className="opacity-5" />
+                  <Ball
+                    size={ballSize}
+                    color=""
+                    className="opacity-10 bg-foreground"
+                  />
                 )}
 
                 {column.annotate && (
-                  <div
-                    className="h-full w-[2px] bg-black rounded-full absolute annotation-enter"
-                    style={{
-                      bottom: ballSpacing,
-                      top: ballSpacing,
-                      animationDelay: `${maxAnimationDelay + 350 + 400}ms`,
-                    }}
-                  >
+                  <div className="absolute top-0 bottom-0">
                     <div
-                      className="bg-black absolute top-0 text-[0.5rem] py-0.5 px-1 text-white annotation-enter"
+                      className="w-[1px] bg-foreground bg-opacity-50 rounded-full absolute annotation-enter top-8 bottom-8"
                       style={{
-                        [i < columns.length / 2 ? "left" : "right"]:
-                          ballSpacing,
+                        bottom: ballSpacing,
+                        top: ballSpacing + 8,
+                        animationDelay: `${maxAnimationDelay + 350 + 400}ms`,
+                      }}
+                    />
+                    <div
+                      className={cn(
+                        "bg-foreground absolute top-0 text-[0.5rem] py-0.5 text-background annotation-enter",
+                        {
+                          "rounded-r-md rounded-tl-md pr-1.5 pl-1":
+                            i < columns.length / 2,
+                          "rounded-l-md rounded-tr-md pl-1.5 pr-1":
+                            i >= columns.length / 2,
+                        }
+                      )}
+                      style={{
+                        [i < columns.length / 2 ? "left" : "right"]: 0,
                         animationDelay: `${maxAnimationDelay + 350 + 400}ms`,
                       }}
                     >

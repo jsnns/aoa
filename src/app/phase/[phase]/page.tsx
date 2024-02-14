@@ -2,6 +2,7 @@ import { PhasePredictionChart } from "@/app/PhasePredictionChart";
 import { Card } from "@/components/ui/card";
 import { getPhaseBySlug } from "@/data/phases";
 import { getPredictions } from "@/lib/predictions/aggregate";
+import type { Metadata } from "next";
 
 interface Props {
   params: { phase: string };
@@ -26,7 +27,7 @@ export default async function Page({ params }: Props) {
       <PhasePredictionChart
         phase={phase}
         predictionData={predictions}
-        className="h-full w-full"
+        className="h-full w-full max-h-96"
         thresholds={{
           decade: 12 * 100,
           year: 12 * 25,
@@ -35,4 +36,20 @@ export default async function Page({ params }: Props) {
       />
     </main>
   );
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const phase = getPhaseBySlug(params.phase);
+
+  if (!phase) {
+    return { title: "Phase not found" };
+  }
+
+  return {
+    title: phase.title,
+    description: phase.summary,
+    openGraph: {
+      images: [`/og?phase=${phase.slug}`],
+    },
+  };
 }

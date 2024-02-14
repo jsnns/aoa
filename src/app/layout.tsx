@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Phases of AGI",
   description:
     "Explore a proposed framework for the phases of AGI and predict when they might arrive.",
+  openGraph: { images: ["/og?phase=digital-agi"] },
 };
 
 export default function RootLayout({

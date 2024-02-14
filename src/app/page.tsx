@@ -1,4 +1,5 @@
 import { phases } from "@/data/phases";
+import { Metadata } from "next";
 import { Phase } from "./Phase";
 import { ScrollAdapter } from "./ScrollAdapter";
 
@@ -15,3 +16,4 @@ export default function Home() {
     </main>
   );
 }
+
