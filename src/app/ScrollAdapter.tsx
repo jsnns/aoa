@@ -8,13 +8,18 @@ interface Props {}
 export const ScrollAdapter: React.FC<Props> = ({}) => {
   useEffect(() => {
     const reverseScroll = (e: WheelEvent) => {
+      console.log("scrolling", e.deltaY);
       if (e.deltaY === 0) return;
 
       e.preventDefault();
-      window.scrollBy(e.deltaY, 0);
+      const main = document.querySelector("main");
+      if (main) {
+        main.scrollBy(e.deltaY, 0);
+        return;
+      }
     };
 
-    document.body.addEventListener("wheel", reverseScroll);
+    document.body.addEventListener("wheel", reverseScroll, { passive: false });
 
     return () => {
       document.body.removeEventListener("wheel", reverseScroll);
