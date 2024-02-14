@@ -2,6 +2,8 @@ import { phases } from "@/data/phases";
 import { Phase } from "./Phase";
 import { ScrollAdapter } from "./ScrollAdapter";
 
+export const revalidate = 60; // get new data each minute to make it interesting to refresh for now, once we have a stable stream of data we can increase this
+
 export default function Home() {
   return (
     <main className="flex justify-center flex-col h-[100svh]">

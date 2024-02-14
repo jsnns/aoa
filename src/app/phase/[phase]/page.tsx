@@ -8,6 +8,8 @@ interface Props {
   params: { phase: string };
 }
 
+export const revalidate = 60; // 1 minute
+
 export default async function Page({ params }: Props) {
   const phase = getPhaseBySlug(params.phase);
 
