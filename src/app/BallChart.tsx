@@ -25,7 +25,7 @@ export interface BallChartColumn {
 
 export const BallChart: React.FC<Props> = ({ data }) => {
   const [ref, { height }] = useMeasure();
-  const ballSize = 14;
+  const ballSize = 18;
   const ballSpacing = 1;
   const maxBallsPerColumn = Math.floor(
     (height || 0) / (ballSize + ballSpacing)
@@ -94,11 +94,11 @@ export const BallChart: React.FC<Props> = ({ data }) => {
                     />
                     <div
                       className={cn(
-                        "bg-foreground absolute top-0 text-[0.5rem] py-0.5 text-background annotation-enter",
+                        "bg-foreground absolute top-0 text-xs py-0.5 text-background annotation-enter",
                         {
-                          "rounded-r-md rounded-tl-md pr-1.5 pl-1":
+                          "rounded-r-md rounded-tl-md pr-2 pl-1":
                             i < columns.length / 2,
-                          "rounded-l-md rounded-tr-md pl-1.5 pr-1":
+                          "rounded-l-md rounded-tr-md pl-2 pr-2":
                             i >= columns.length / 2,
                         }
                       )}
