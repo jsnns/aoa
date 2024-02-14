@@ -16,14 +16,14 @@ export const Phase: React.FC<Props> = async ({ phase }) => {
 
   return (
     <div
-      className="flex flex-col justify-between max-h-full overflow-y-auto relative"
+      className="flex flex-col justify-between max-h-full overflow-y-hidden relative h-full"
       key={phase.sequence}
     >
-      <div className="p-2">
+      <div className="p-2 shrink flex overflow-y-auto">
         <PhaseColumn phase={phase} />
       </div>
 
-      <Card className="py-3 px-5 hover:absolute active:absolute bottom-0 left-0 right-0 group flex flex-col gap-5">
+      <Card className="py-3 px-5 hover:absolute active:absolute bottom-0 left-0 right-0 group flex flex-col gap-5 shrink-0">
         <div className="group-hover:flex hidden max-w-full">
           <PhasePredictionChart
             phase={phase}

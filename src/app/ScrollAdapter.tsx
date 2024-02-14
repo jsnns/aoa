@@ -10,9 +10,6 @@ export const ScrollAdapter: React.FC<Props> = ({}) => {
     const reverseScroll = (e: WheelEvent) => {
       if (e.deltaY === 0) return;
 
-      // only if the target is the body
-      if (e.target !== document.body) return;
-
       e.preventDefault();
       window.scrollBy(e.deltaY, 0);
     };

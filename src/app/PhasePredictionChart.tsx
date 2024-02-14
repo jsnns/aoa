@@ -116,8 +116,6 @@ export const groupByDecade = (
     (_, i) => startYear + i * 10
   );
 
-  console.log(decades, buckets, averagePrediction);
-
   return decades.map((decade) => {
     const decadeBuckets = buckets.filter(
       (b) => b.year >= decade && b.year < decade + 10
