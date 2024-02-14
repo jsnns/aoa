@@ -103,7 +103,7 @@ export const BallChart: React.FC<Props> = ({ data }) => {
                         }
                       )}
                       style={{
-                        [i < columns.length / 2 ? "left" : "right"]: 0,
+                        [i < columns.length / 2 ? "left" : "right"]: -1,
                         animationDelay: `${maxAnimationDelay + 350 + 400}ms`,
                       }}
                     >
