@@ -5,7 +5,6 @@ import {
   TooltipContent,
   TooltipProvider,
 } from "@/components/ui/tooltip";
-import { Phase } from "@/data/phases";
 import { cn } from "@/lib/utils";
 import { TooltipTrigger } from "@radix-ui/react-tooltip";
 import { useMeasure } from "@uidotdev/usehooks";
@@ -24,8 +23,8 @@ export interface BallChartColumn {
 }
 
 export const BallChart: React.FC<Props> = ({ data }) => {
-  const [ref, { width, height }] = useMeasure();
-  const ballSize = 12;
+  const [ref, { height }] = useMeasure();
+  const ballSize = 14;
   const ballSpacing = 1;
   const maxBallsPerColumn = Math.floor(
     (height || 0) / (ballSize + ballSpacing)
@@ -35,7 +34,10 @@ export const BallChart: React.FC<Props> = ({ data }) => {
   const max = Math.max(...data.map((c) => c.value));
   const columns = data.map((column) => ({
     ...column,
-    value: Math.floor((column.value / max) * maxBallsPerColumn),
+    value: Math.min(
+      Math.floor((column.value / max) * maxBallsPerColumn),
+      column.value
+    ),
   }));
 
   return (
@@ -53,11 +55,16 @@ export const BallChart: React.FC<Props> = ({ data }) => {
                 style={{ gap: ballSpacing }}
               >
                 {Array.from({ length: column.value }).map((_, i) => (
-                  <Ball key={i} size={ballSize} color="black" className="" />
+                  <Ball
+                    key={i}
+                    size={ballSize}
+                    color="black"
+                    className="opacity-25"
+                  />
                 ))}
 
                 {column.value === 0 && (
-                  <Ball size={ballSize} color="black" className="opacity-10" />
+                  <Ball size={ballSize} color="black" className="opacity-5" />
                 )}
 
                 {column.annotate && (

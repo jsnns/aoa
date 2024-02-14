@@ -1,6 +1,6 @@
 import { Tables } from "@/database.types";
-import { supabase } from "../supabase";
 import { DateTime } from "luxon";
+import { supabase } from "../supabase";
 
 export const getPredictions = async (phaseId: number) => {
   const { data } = await supabase

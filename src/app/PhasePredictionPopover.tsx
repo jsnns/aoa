@@ -55,7 +55,7 @@ export const PhasePredictionPopover: React.FC<Props> = ({
       <PopoverContent className="m-6">
         <PhasePredictionForm
           submit={(a) => {
-            submit(a);
+            submit({ ...a, phaseId });
             markSubmitted();
           }}
         />

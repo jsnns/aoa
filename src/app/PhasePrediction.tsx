@@ -1,16 +1,10 @@
 "use server";
 
 import { Phase } from "@/data/phases";
-import {
-  averageDuration,
-  datetimeFromAverageDuration,
-  getPredictions,
-  predictionsToDurationFromNow,
-} from "@/lib/predictions/aggregate";
-import { supabase } from "@/lib/supabase";
-import { PhasePredictionForm } from "./PhasePredictionForm";
-import { submitPrediction } from "./actions";
+import { getPredictions } from "@/lib/predictions/aggregate";
+import { PhasePredictionEstimate } from "./PhasePredictionEstimate";
 import { PhasePredictionPopover } from "./PhasePredictionPopover";
+import { submitPrediction } from "./actions";
 
 interface Props {
   phase: Phase;
@@ -23,21 +17,9 @@ export const PhasePrediction: React.FC<Props> = async ({ phase }) => {
     return <div>No predictions</div>;
   }
 
-  const durations = predictionsToDurationFromNow(predictions);
-  const average = averageDuration(durations);
-  const arrival = datetimeFromAverageDuration(average);
-
   return (
     <>
-      <p className="">
-        <span className="text-sm opacity-50">
-          {phase.title} will arrive in{" "}
-        </span>
-        <br />
-        <span className="text-xl">
-          {arrival.toFormat("MMM")} {arrival.year}
-        </span>
-      </p>
+      <PhasePredictionEstimate phase={phase} predictions={predictions} />
 
       <PhasePredictionPopover
         phaseId={phase.supabaseId}

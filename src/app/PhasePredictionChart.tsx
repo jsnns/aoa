@@ -1,21 +1,22 @@
-"use server";
+"use client";
 
 import { Phase } from "@/data/phases";
+import { Tables } from "@/database.types";
 import {
   averageDuration,
   datetimeFromAverageDuration,
   furthestPrediction,
-  getPredictions,
   predictionsToDurationFromNow,
 } from "@/lib/predictions/aggregate";
+import { useLivePredictions } from "@/lib/predictions/livePredictions";
 import { cn } from "@/lib/utils";
-import { BallChart } from "./BallChart";
-import { Tables } from "@/database.types";
 import { DateTime } from "luxon";
+import { BallChart, BallChartColumn } from "./BallChart";
 
 interface Props {
   phase: Phase;
   className?: string;
+  predictionData: Tables<"predictions">[] | null;
 }
 
 export const bucketByMonthAndYear = (
@@ -60,29 +61,102 @@ export const allBucketsBetween = (
   return buckets;
 };
 
-export const PhasePredictionChart: React.FC<Props> = async ({
-  phase,
-  className,
-}) => {
-  const predictions = await getPredictions(phase.supabaseId);
-  if (!predictions || predictions.length === 0) {
-    return null;
-  }
+export const groupByYear = (
+  buckets: { month: number; year: number; count: number }[],
+  averagePrediction: DateTime
+) => {
+  const years = Array.from(new Set(buckets.map((b) => b.year)));
 
-  const averagePrediction = datetimeFromAverageDuration(
-    averageDuration(predictionsToDurationFromNow(predictions))
+  return years.map((year) => {
+    const yearBuckets = buckets.filter((b) => b.year === year);
+    return {
+      columnTitle: year.toString(),
+      value: yearBuckets.reduce((acc, b) => acc + b.count, 0),
+      annotate: year === averagePrediction.year ? { text: "avg" } : undefined,
+    };
+  });
+};
+
+export const groupByQuarter = (
+  buckets: { month: number; year: number; count: number }[],
+  averagePrediction: DateTime
+) => {
+  const years = Array.from(new Set(buckets.map((b) => b.year)));
+
+  return years.flatMap((year) => {
+    const yearBuckets = buckets.filter((b) => b.year === year);
+    const quarters = [1, 4, 7, 10];
+    return quarters.map((quarter) => {
+      const quarterBuckets = yearBuckets.filter(
+        (b) => b.month >= quarter && b.month < quarter + 3
+      );
+      return {
+        columnTitle: `Q${Math.floor(quarter / 3) + 1} ${year}`,
+        value: quarterBuckets.reduce((acc, b) => acc + b.count, 0),
+        annotate:
+          year === averagePrediction.year &&
+          quarterBuckets.some((b) => b.month === averagePrediction.month)
+            ? { text: "avg" }
+            : undefined,
+      };
+    });
+  });
+};
+
+export const groupByDecade = (
+  buckets: { month: number; year: number; count: number }[],
+  averagePrediction: DateTime
+) => {
+  const startYear = buckets[0].year - (buckets[0].year % 10);
+  const endYear =
+    buckets[buckets.length - 1].year + (10 - (buckets[0].year % 10));
+
+  const decades = Array.from(
+    { length: Math.ceil((endYear - startYear) / 10) },
+    (_, i) => startYear + i * 10
   );
 
-  const buckets = bucketByMonthAndYear(predictions);
+  console.log(decades, buckets, averagePrediction);
 
-  buckets.sort((a, b) => {
-    if (a.year === b.year) {
-      return a.month - b.month;
-    }
-    return a.year - b.year;
+  return decades.map((decade) => {
+    const decadeBuckets = buckets.filter(
+      (b) => b.year >= decade && b.year < decade + 10
+    );
+    return {
+      columnTitle: `${decade}s`,
+      value: decadeBuckets.reduce((acc, b) => acc + b.count, 0),
+      annotate: decadeBuckets.some(
+        (b) =>
+          b.year === averagePrediction.year &&
+          b.month === averagePrediction.month
+      )
+        ? { text: "avg" }
+        : undefined,
+    };
   });
+};
 
-  const columns = buckets.map((bucket) => {
+export const fitBuckets = (
+  buckets: { month: number; year: number; count: number }[],
+  averagePrediction: DateTime
+): BallChartColumn[] => {
+  // over 60 buckets get grouped by year
+  // over 24 buckets get grouped by quarter
+  // over 12 buckets get grouped by month
+
+  if (buckets.length > 120) {
+    return groupByDecade(buckets, averagePrediction);
+  }
+
+  if (buckets.length > 60) {
+    return groupByYear(buckets, averagePrediction);
+  }
+
+  if (buckets.length > 24) {
+    return groupByQuarter(buckets, averagePrediction);
+  }
+
+  return buckets.map((bucket) => {
     return {
       columnTitle: DateTime.fromObject({
         year: bucket.year,
@@ -97,6 +171,47 @@ export const PhasePredictionChart: React.FC<Props> = async ({
           : undefined,
     };
   });
+};
+
+export const bucketIsNotInThePast = (bucket: {
+  month: number;
+  year: number;
+  count: number;
+}) => {
+  const now = DateTime.now();
+  const bucketDate = DateTime.fromObject({
+    year: bucket.year,
+    month: bucket.month,
+  });
+  return bucketDate > now;
+};
+
+export const PhasePredictionChart: React.FC<Props> = ({
+  phase,
+  className,
+  predictionData,
+}) => {
+  const predictions = useLivePredictions(phase.supabaseId, predictionData);
+
+  if (!predictions || predictions.length === 0) {
+    return null;
+  }
+
+  const averagePrediction = datetimeFromAverageDuration(
+    averageDuration(predictionsToDurationFromNow(predictions))
+  );
+
+  const buckets =
+    bucketByMonthAndYear(predictions).filter(bucketIsNotInThePast);
+
+  buckets.sort((a, b) => {
+    if (a.year === b.year) {
+      return a.month - b.month;
+    }
+    return a.year - b.year;
+  });
+
+  const columns = fitBuckets(buckets, averagePrediction);
 
   return (
     <div className={cn(className)}>
