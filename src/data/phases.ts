@@ -22,7 +22,8 @@ export const phases = [
     sequence: 2,
     slug: "physical-agi",
     title: "Physical AGI",
-    summary: "",
+    summary:
+      "A human level brain, embodied by bi-pedal robots, smart appliances, cars, and drones.",
     how_it_starts: "",
     limitations: "",
     capabilities: ``,
@@ -35,7 +36,8 @@ export const phases = [
     sequence: 2,
     slug: "industrial-agi",
     title: "Industrial AGI",
-    summary: "",
+    summary:
+      "Cooporative swarms of AGI robots and drones capable of greatly exceeding human productivity.",
     how_it_starts: "",
     limitations: "",
     capabilities: ``,

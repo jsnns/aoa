@@ -12,7 +12,7 @@ export const PhaseColumn: React.FC<Props> = ({ phase }) => {
       <h2 className="text-xl font-semibold">{phase.title}</h2>
       <p className="">{phase.summary}</p>
 
-      <h3 className={headingStyle}>How it starts</h3>
+      {/* <h3 className={headingStyle}>How it starts</h3>
       <p>{phase.how_it_starts}</p>
 
       <h3 className={headingStyle}>Limitations</h3>
@@ -28,7 +28,7 @@ export const PhaseColumn: React.FC<Props> = ({ phase }) => {
       <p>{phase.money}</p>
 
       <h3 className={headingStyle}>Culture</h3>
-      <p>{phase.culture}</p>
+      <p>{phase.culture}</p> */}
     </div>
   );
 };
