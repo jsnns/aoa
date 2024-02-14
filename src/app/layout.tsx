@@ -9,8 +9,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.DOMAIN || ""),
   title: "Eras of AI",
   description:
-    "Explore a proposed framework for the eras of AI and predict when they might arrive.",
-  openGraph: { images: ["/og?phase=digital-agi"] },
+    "Explore a proposed framework for the eras of AI and predict when they will arrive.",
+  openGraph: {
+    images: ["/og?phase=digital-agi"],
+    description:
+      "Explore a proposed framework for the eras of AI and predict when they will arrive.",
+  },
 };
 
 export default function RootLayout({
