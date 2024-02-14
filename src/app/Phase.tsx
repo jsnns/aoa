@@ -21,7 +21,7 @@ export const Phase: React.FC<Props> = async ({ phase }) => {
       key={phase.sequence}
     >
       <div className="p-2 shrink flex overflow-y-auto">
-        <PhaseColumn phase={phase} />
+        <PhaseColumn phase={phase} fullDetails={!!phase.culture} />
       </div>
 
       <Card className="py-5 px-5 rounded-xl group flex flex-col gap-5 shrink-0">

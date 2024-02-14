@@ -6,7 +6,7 @@ interface Props {
 }
 
 export const PhaseColumn: React.FC<Props> = ({ phase, fullDetails }) => {
-  const headingStyle = "text-sm opacity-50 mt-3";
+  const headingStyle = "text-xs opacity-50 mt-3";
 
   return (
     <div className="">
@@ -14,7 +14,7 @@ export const PhaseColumn: React.FC<Props> = ({ phase, fullDetails }) => {
       <p className="">{phase.summary}</p>
 
       {fullDetails && (
-        <>
+        <div className="flex flex-col text-sm">
           <h3 className={headingStyle}>How it starts</h3>
           <p>{phase.how_it_starts}</p>
 
@@ -32,7 +32,7 @@ export const PhaseColumn: React.FC<Props> = ({ phase, fullDetails }) => {
 
           <h3 className={headingStyle}>Culture</h3>
           <p>{phase.culture}</p>
-        </>
+        </div>
       )}
     </div>
   );
