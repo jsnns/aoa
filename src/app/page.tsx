@@ -6,7 +6,7 @@ export const revalidate = 60; // get new data each minute to make it interesting
 
 export default function Home() {
   return (
-    <main className="flex justify-center flex-col h-[100svh]">
+    <main className="flex justify-center flex-col h-[100svh] overflow-y-hidden">
       <ScrollAdapter />
 
       <div className="grid grid-cols-3 h-[100svh] p-3 gap-3 w-[270vw] md:w-screen md:min-w-[1500px]">
