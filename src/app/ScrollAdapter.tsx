@@ -8,7 +8,6 @@ interface Props {}
 export const ScrollAdapter: React.FC<Props> = ({}) => {
   useEffect(() => {
     const reverseScroll = (e: WheelEvent) => {
-      console.log("scrolling", e.deltaY);
       if (e.deltaY === 0) return;
 
       e.preventDefault();
