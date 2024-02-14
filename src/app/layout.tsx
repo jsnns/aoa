@@ -7,9 +7,9 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.DOMAIN || ""),
-  title: "Phases of AGI",
+  title: "Eras of AI",
   description:
-    "Explore a proposed framework for the phases of AGI and predict when they might arrive.",
+    "Explore a proposed framework for the eras of AI and predict when they might arrive.",
   openGraph: { images: ["/og?phase=digital-agi"] },
 };
 
