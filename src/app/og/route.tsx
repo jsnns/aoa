@@ -59,10 +59,10 @@ export async function GET(request: Request) {
             <circle cx="12" cy="12" r="12" fill="#3B82F6" />
           </svg>
         </div>
-        <p style={{ fontSize: 40 }}>
+        <p style={{ fontSize: 64 }}>
           {phase.title} by {averagePrediction.toFormat("MMM yyyy")}
         </p>
-        <p style={{ fontSize: 24 }}>{phase.summary}</p>
+        <p style={{ fontSize: 32 }}>{phase.summary}</p>
       </div>
     ),
     {
