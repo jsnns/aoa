@@ -2,10 +2,13 @@
 
 import { Button } from "@/components/ui/button";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { getPhaseBySupabaseId } from "@/data/phases";
 import { useEffect, useState } from "react";
 import { CheckCircle } from "react-feather";
 import {
@@ -38,6 +41,11 @@ export const PhasePredictionPopover: React.FC<Props> = ({
     return null;
   }
 
+  const phase = getPhaseBySupabaseId(phaseId);
+  if (!phase) {
+    return <div>Phase not found</div>;
+  }
+
   if (hasSubmitted) {
     return (
       <div className="flex flex-row gap-2 opacity-50 cursor-not-allowed text-sm items-center">
@@ -48,18 +56,21 @@ export const PhasePredictionPopover: React.FC<Props> = ({
   }
 
   return (
-    <Popover modal>
-      <PopoverTrigger asChild>
+    <Dialog>
+      <DialogTrigger asChild>
         <Button>Predict</Button>
-      </PopoverTrigger>
-      <PopoverContent className="" side="top" align="end" sideOffset={-40}>
+      </DialogTrigger>
+      <DialogContent className="">
+        <DialogHeader>
+          <DialogTitle>Predict arrival of {phase.title}</DialogTitle>
+        </DialogHeader>
         <PhasePredictionForm
           submit={(a) => {
             submit({ ...a, phaseId });
             markSubmitted();
           }}
         />
-      </PopoverContent>
-    </Popover>
+      </DialogContent>
+    </Dialog>
   );
 };

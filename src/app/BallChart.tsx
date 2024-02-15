@@ -24,12 +24,13 @@ export interface BallChartColumn {
 }
 
 export const BallChart: React.FC<Props> = ({ data }) => {
-  const [ref, { height }] = useMeasure();
+  const [ref, { height, width }] = useMeasure();
   const ballSize = 18;
   const ballSpacing = 1;
   const maxBallsPerColumn = Math.floor(
     (height || 0) / (ballSize + ballSpacing)
   );
+  const maxColumns = Math.floor((width || 0) / (ballSize + ballSpacing));
 
   if (data.length === 0 || data.every((c) => c.value === 0)) {
     return null;
@@ -50,6 +51,13 @@ export const BallChart: React.FC<Props> = ({ data }) => {
     ...columns.map((column) => column.value * 100)
   );
 
+  const emptyColumns = maxColumns - columns.length;
+  if (emptyColumns > 0) {
+    for (let i = 0; i < emptyColumns; i++) {
+      columns.push({ columnTitle: "", value: 0 });
+    }
+  }
+
   return (
     <div
       ref={ref}
@@ -64,25 +72,8 @@ export const BallChart: React.FC<Props> = ({ data }) => {
                 className="flex flex-col items-center"
                 style={{ gap: ballSpacing }}
               >
-                {Array.from({ length: column.value }).map((_, j) => (
-                  <Ball
-                    key={j}
-                    size={ballSize}
-                    color=""
-                    className="opacity-75 ball-enter bg-primary"
-                    style={{ animationDelay: `${(column.value - j) * 100}ms` }}
-                  />
-                ))}
-
-                {column.value === 0 && (
-                  <Ball
-                    size={ballSize}
-                    color=""
-                    className="opacity-10 bg-foreground"
-                  />
-                )}
-
                 {column.annotate && (
+                  // flag
                   <div className="absolute top-0 bottom-0">
                     <div
                       className="w-[1px] bg-foreground bg-opacity-50 rounded-full absolute annotation-enter top-8 bottom-8"
@@ -111,13 +102,33 @@ export const BallChart: React.FC<Props> = ({ data }) => {
                     </div>
                   </div>
                 )}
+
+                {Array.from({ length: column.value }).map((_, j) => (
+                  <Ball
+                    key={j}
+                    size={ballSize}
+                    color=""
+                    className="ball-enter bg-primary"
+                    style={{ animationDelay: `${(column.value - j) * 100}ms` }}
+                  />
+                ))}
+
+                {column.value === 0 && (
+                  <Ball
+                    size={ballSize}
+                    color=""
+                    className="opacity-10 bg-foreground"
+                  />
+                )}
               </div>
             </TooltipTrigger>
 
-            <TooltipContent>
-              <p className="font-semibold">{column.columnTitle}</p>
-              {column.tooltip && <p>{column.tooltip}</p>}
-            </TooltipContent>
+            {column.columnTitle && (
+              <TooltipContent>
+                <p className="font-semibold">{column.columnTitle}</p>
+                {column.tooltip && <p>{column.tooltip}</p>}
+              </TooltipContent>
+            )}
           </Tooltip>
         </TooltipProvider>
       ))}

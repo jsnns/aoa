@@ -33,7 +33,7 @@ export const phases = [
   },
   {
     supabaseId: 3,
-    sequence: 2,
+    sequence: 3,
     slug: "industrial-agi",
     title: "Industrial AGI",
     summary:
@@ -51,4 +51,8 @@ export type Phase = (typeof phases)[number];
 
 export const getPhaseBySlug = (slug: string) => {
   return phases.find((phase) => phase.slug === slug);
+};
+
+export const getPhaseBySupabaseId = (supabaseId: number) => {
+  return phases.find((phase) => phase.supabaseId === supabaseId);
 };
