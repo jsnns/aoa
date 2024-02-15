@@ -9,11 +9,11 @@ export const PhaseColumn: React.FC<Props> = ({ phase, fullDetails }) => {
   const headingStyle = "opacity-40 mt-5";
 
   return (
-    <div className="flex flex-col gap-2">
-      <h2 className="font-semibold opacity-40">
+    <>
+      <h2 className="opacity-40 font-medium">
         Era {phase.sequence}: {phase.title}
       </h2>
-      <p className="font-semibold">{phase.summary}</p>
+      <p className="font-medium">{phase.summary}</p>
 
       {fullDetails && (
         <div className="flex flex-col text-sm mt-3">
@@ -36,6 +36,6 @@ export const PhaseColumn: React.FC<Props> = ({ phase, fullDetails }) => {
           <p>{phase.culture}</p>
         </div>
       )}
-    </div>
+    </>
   );
 };
