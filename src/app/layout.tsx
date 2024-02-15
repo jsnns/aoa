@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
+import Script from "next/script";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -36,6 +37,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Script
+        defer
+        data-domain="erasof.ai"
+        src="https://plausible.io/js/script.js"
+      />
       <body className={font.className}>
         {children}
         <Analytics />
