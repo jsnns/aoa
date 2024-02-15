@@ -9,11 +9,17 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.DOMAIN || ""),
   title: "Eras of AI",
   description:
-    "Explore a proposed framework for the eras of AI and predict when they will arrive.",
+    "Explore a framework for the eras of AI and predict when they will arrive.",
   openGraph: {
     images: ["/og?phase=digital-agi"],
     description:
-      "Explore a proposed framework for the eras of AI and predict when they will arrive.",
+      "Explore a framework for the eras of AI and predict when they will arrive.",
+  },
+  twitter: {
+    images: ["/og?phase=digital-agi"],
+    title: "Eras of AI",
+    description:
+      "Explore a framework for the eras of AI and predict when they will arrive.",
   },
 };
 
