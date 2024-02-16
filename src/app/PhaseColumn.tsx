@@ -1,3 +1,4 @@
+import { Checkbox } from "@/components/ui/checkbox";
 import { Phase } from "@/data/phases";
 
 interface Props {
@@ -14,6 +15,24 @@ export const PhaseColumn: React.FC<Props> = ({ phase, fullDetails }) => {
         Era {phase.sequence}: {phase.title}
       </h2>
       <p className="font-medium">{phase.summary}</p>
+
+      {phase.milestones && (
+        <div className="flex flex-col text-sm mt-3 gap-3">
+          {phase.milestones.map((milestone, i) => (
+            <div className="items-top flex space-x-2" key={i}>
+              <Checkbox checked={false} id={`milestone-${i}`} />
+              <div className="grid gap-1.5 leading-none">
+                <label
+                  htmlFor={`milestone-${i}`}
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  {milestone}
+                </label>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       {fullDetails && (
         <div className="flex flex-col text-sm mt-3">

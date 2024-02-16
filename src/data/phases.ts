@@ -16,6 +16,10 @@ export const phases = [
       "Human knowledge and creative work are economically worthless. GDP growth soars while human productivity collapses. For the first time humans produce less then we consume. High deflation is the new normal.",
     culture:
       "Education and the structure of late adolescence require urgent attention. Significant tension and fighting between former knowledge and creative workers and everyone else about how to relieve economic pressure. Individualism continues to dominate policy.",
+    milestones: [
+      "Single human blockbuster movie (>$50M box office)",
+      "Single human unicorn IPO",
+    ],
   },
   {
     supabaseId: 2,
