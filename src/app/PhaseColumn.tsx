@@ -24,7 +24,7 @@ export const PhaseColumn: React.FC<Props> = ({ phase, fullDetails }) => {
               <div className="grid gap-1.5 leading-none">
                 <label
                   htmlFor={`milestone-${i}`}
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  className="text-sm font-medium -mt-[1px] peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
                   {milestone}
                 </label>
