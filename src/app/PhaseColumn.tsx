@@ -1,5 +1,6 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Phase } from "@/data/phases";
+import Link from "next/link";
 
 interface Props {
   phase: Phase;
@@ -11,9 +12,11 @@ export const PhaseColumn: React.FC<Props> = ({ phase, fullDetails }) => {
 
   return (
     <>
-      <h2 className="opacity-40 font-medium">
-        Era {phase.sequence}: {phase.title}
-      </h2>
+      <Link href={`/phase/${phase.slug}`}>
+        <h2 className="opacity-40 font-medium">
+          Era {phase.sequence}: {phase.title}
+        </h2>
+      </Link>
       <p className="font-medium">{phase.summary}</p>
 
       {phase.milestones && (

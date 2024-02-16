@@ -1,3 +1,4 @@
+import { PhaseColumn } from "@/app/PhaseColumn";
 import { PhasePredictionChart } from "@/app/PhasePredictionChart";
 import { Card } from "@/components/ui/card";
 import { getPhaseBySlug } from "@/data/phases";
@@ -20,22 +21,23 @@ export default async function Page({ params }: Props) {
   const predictions = await getPredictions(phase.supabaseId);
 
   return (
-    <main className="p-3 flex flex-col h-[100svh] gap-10">
-      <Card className="p-3">
-        <h1 className="text-xl font-semibold">{phase.title}</h1>
-        <p>{phase.summary}</p>
+    <main className="p-3 md:p-10 md:gap-5 gap-3 grid md:grid-cols-3 md:grid-rows-3 h-[100svh]">
+      <Card className="p-3 md:row-span-3 overflow-y-auto w-full">
+        <PhaseColumn phase={phase} fullDetails />
       </Card>
 
-      <PhasePredictionChart
-        phase={phase}
-        predictionData={predictions}
-        className="h-full w-full max-h-96"
-        thresholds={{
-          decade: 12 * 100,
-          year: 12 * 25,
-          quarter: 12 * 10,
-        }}
-      />
+      <Card className="h-[30vh] md:h-full w-full md:col-span-2 md:row-span-3 p-2">
+        <PhasePredictionChart
+          phase={phase}
+          predictionData={predictions}
+          className="h-full w-full"
+          thresholds={{
+            decade: 12 * 100,
+            year: 12 * 25,
+            quarter: 12 * 10,
+          }}
+        />
+      </Card>
     </main>
   );
 }
