@@ -1,9 +1,10 @@
+import { LavaLamp } from "@/components/LavaLamp";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import "./globals.css";
 import Script from "next/script";
+import "./globals.css";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -44,6 +45,7 @@ export default function RootLayout({
       />
       <body className={font.className}>
         {children}
+        <LavaLamp />
         <Analytics />
         <SpeedInsights />
       </body>

@@ -3,7 +3,8 @@
 import { Card } from "@/components/ui/card";
 import { Phase as PhaseType } from "@/data/phases";
 import { getPredictions } from "@/lib/predictions/aggregate";
-import { PhaseColumn } from "./PhaseColumn";
+import { PhaseDetails } from "./PhaseDetails";
+import { PhaseHeader } from "./PhaseHeader";
 import { PhasePrediction } from "./PhasePrediction";
 import { PhasePredictionChart } from "./PhasePredictionChart";
 
@@ -16,11 +17,12 @@ export const Phase: React.FC<Props> = async ({ phase }) => {
 
   return (
     <Card
-      className="flex flex-col justify-between max-h-full overflow-y-hidden relative h-full max-w-[90vw] p-3 rounded-xl"
+      className="flex flex-col justify-between max-h-full overflow-y-hidden relative h-full max-w-[90vw] p-3 rounded-3xl"
       key={phase.sequence}
     >
       <div className="p-2 shrink flex overflow-y-auto flex-col gap-2">
-        <PhaseColumn phase={phase} fullDetails={!!phase.culture} />
+        <PhaseHeader phase={phase} />
+        {phase.culture && <PhaseDetails phase={phase} />}
       </div>
 
       <div className="flex flex-col gap-5 shrink-0 p-2">

@@ -26,7 +26,7 @@ export interface BallChartColumn {
 export const BallChart: React.FC<Props> = ({ data }) => {
   const [ref, { height, width }] = useMeasure();
   const ballSize = 18;
-  const ballSpacing = 1;
+  const ballSpacing = 3;
   const maxBallsPerColumn = Math.floor(
     (height || 0) / (ballSize + ballSpacing)
   );
@@ -74,32 +74,16 @@ export const BallChart: React.FC<Props> = ({ data }) => {
               >
                 {column.annotate && (
                   // flag
-                  <div className="absolute top-0 bottom-0">
-                    <div
-                      className="w-[1px] bg-foreground bg-opacity-50 rounded-full absolute annotation-enter top-8 bottom-8"
-                      style={{
-                        bottom: ballSpacing,
-                        top: ballSpacing + 8,
-                        animationDelay: `${maxAnimationDelay + 350 + 400}ms`,
-                      }}
-                    />
-                    <div
-                      className={cn(
-                        "bg-foreground absolute top-0 text-xs py-0.5 text-background annotation-enter",
-                        {
-                          "rounded-r-md rounded-tl-md pr-2 pl-1":
-                            i < columns.length / 2,
-                          "rounded-l-md rounded-tr-md pl-2 pr-2":
-                            i >= columns.length / 2,
-                        }
-                      )}
-                      style={{
-                        [i < columns.length / 2 ? "left" : "right"]: -1,
-                        animationDelay: `${maxAnimationDelay + 350 + 400}ms`,
-                      }}
-                    >
+                  <div
+                    className="absolute top-0 bottom-0 bg-white annotation-enter"
+                    style={{
+                      width: ballSize + ballSpacing,
+                      animationDelay: `${maxAnimationDelay + 500}ms`,
+                    }}
+                  >
+                    <p className="text-[9px] rotate-90 pl-3 uppercase opacity-70 font-semibold">
                       {column.annotate.text}
-                    </div>
+                    </p>
                   </div>
                 )}
 
