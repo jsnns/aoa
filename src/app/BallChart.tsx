@@ -27,11 +27,9 @@ export const BallChart: React.FC<Props> = ({ data }) => {
   const [ref, { height, width }] = useMeasure();
   const ballSize = 18;
   const ballSpacing = 3;
-  const maxBallsPerColumn = Math.floor(
-    (height || 0) / (ballSize + ballSpacing)
-  );
-  const maxColumns = Math.floor((width || 0) / (ballSize + ballSpacing));
 
+  const maxBallsPerColumn = Math.floor((width || 0) / (ballSize + ballSpacing));
+  const maxColumns = Math.floor((height || 0) / (ballSize + ballSpacing));
   if (data.length === 0 || data.every((c) => c.value === 0)) {
     return null;
   }
@@ -44,6 +42,7 @@ export const BallChart: React.FC<Props> = ({ data }) => {
       Math.floor((column.value / max) * maxBallsPerColumn),
       column.value
     ),
+    previousValue: column.value,
   }));
 
   // calculate max ball animation delay
@@ -54,34 +53,34 @@ export const BallChart: React.FC<Props> = ({ data }) => {
   const emptyColumns = maxColumns - columns.length;
   if (emptyColumns > 0) {
     for (let i = 0; i < emptyColumns; i++) {
-      columns.push({ columnTitle: "", value: 0 });
+      columns.push({ columnTitle: "", value: 0, previousValue: 0 });
     }
   }
 
   return (
     <div
       ref={ref}
-      className="flex flex-row w-full h-full items-center relative"
+      className="flex flex-col w-full h-full items-center relative"
       style={{ gap: ballSpacing }}
     >
       {columns.map((column, i) => (
         <TooltipProvider key={i}>
           <Tooltip delayDuration={0}>
-            <TooltipTrigger>
+            <TooltipTrigger className="w-full flex flex-col items-center justify-center hover:bg-gray-100">
               <div
-                className="flex flex-col items-center"
+                className="flex flex-row items-center justify-center w-full"
                 style={{ gap: ballSpacing }}
               >
                 {column.annotate && (
                   // flag
                   <div
-                    className="absolute top-0 bottom-0 bg-white annotation-enter"
+                    className="absolute left-0 right-0 bg-gray-50 annotation-enter flex flex-row items-center justify-start px-2"
                     style={{
-                      width: ballSize + ballSpacing,
+                      height: ballSize + ballSpacing,
                       animationDelay: `${maxAnimationDelay + 500}ms`,
                     }}
                   >
-                    <p className="text-[9px] rotate-90 pl-3 uppercase opacity-70 font-semibold">
+                    <p className="text-[9px] uppercase opacity-70 font-semibold">
                       {column.annotate.text}
                     </p>
                   </div>
@@ -101,7 +100,8 @@ export const BallChart: React.FC<Props> = ({ data }) => {
                   <Ball
                     size={ballSize}
                     color=""
-                    className="opacity-10 bg-foreground"
+                    className="opacity-10 bg-foreground empty-ball-enter"
+                    style={{ animationDelay: `${maxAnimationDelay + 1000}ms` }}
                   />
                 )}
               </div>
@@ -111,6 +111,13 @@ export const BallChart: React.FC<Props> = ({ data }) => {
               <TooltipContent>
                 <p className="font-semibold">{column.columnTitle}</p>
                 {column.tooltip && <p>{column.tooltip}</p>}
+                <p>
+                  {column.previousValue.toLocaleString("en-us", {
+                    maximumFractionDigits: 0,
+                    compactDisplay: "short",
+                  })}{" "}
+                  predictions
+                </p>
               </TooltipContent>
             )}
           </Tooltip>

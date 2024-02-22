@@ -3,7 +3,7 @@
 import { Card } from "@/components/ui/card";
 import { Phase as PhaseType } from "@/data/phases";
 import { getPredictions } from "@/lib/predictions/aggregate";
-import { PhaseDetails } from "./PhaseDetails";
+import Link from "next/link";
 import { PhaseHeader } from "./PhaseHeader";
 import { PhasePrediction } from "./PhasePrediction";
 import { PhasePredictionChart } from "./PhasePredictionChart";
@@ -17,27 +17,26 @@ export const Phase: React.FC<Props> = async ({ phase }) => {
 
   return (
     <Card
-      className="flex flex-col justify-between max-h-full overflow-y-hidden relative h-full max-w-[90vw] p-3 rounded-3xl"
+      className="flex flex-col justify-between max-h-full overflow-y-hidden relative h-full max-w-[90vw] rounded-3xl items-center gap-4 py-4"
       key={phase.sequence}
     >
-      <div className="p-2 shrink flex overflow-y-auto flex-col gap-2">
+      <div className="shrink-0 flex overflow-y-auto flex-col gap-2 px-4">
         <PhaseHeader phase={phase} />
-        {phase.culture && <PhaseDetails phase={phase} />}
+        <Link
+          href={`/phase/${phase.slug}`}
+          className="text-sm underline underline-offset-1 opacity-75"
+        >
+          Read More
+        </Link>
       </div>
 
-      <div className="flex flex-col gap-5 shrink-0 p-2">
-        <div className="max-w-full">
-          <PhasePredictionChart
-            phase={phase}
-            className="h-24 w-full overflow-x-auto"
-            predictionData={predictions}
-          />
-        </div>
+      <PhasePredictionChart
+        phase={phase}
+        className="w-full overflow-y-auto overflow-x-hidden"
+        predictionData={predictions}
+      />
 
-        <div className="flex flex-row justify-between items-end">
-          <PhasePrediction phase={phase} />
-        </div>
-      </div>
+      <PhasePrediction phase={phase} />
     </Card>
   );
 };

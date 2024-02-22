@@ -3,15 +3,14 @@
 import { Phase } from "@/data/phases";
 import { Tables } from "@/database.types";
 import {
-  averageDuration,
-  datetimeFromAverageDuration,
   furthestPrediction,
-  predictionsToDurationFromNow,
+  medianPredictionDateTime,
 } from "@/lib/predictions/aggregate";
 import { useLivePredictions } from "@/lib/predictions/livePredictions";
 import { removeOutlierPredictions } from "@/lib/predictions/quality";
 import { cn } from "@/lib/utils";
 import { DateTime } from "luxon";
+import { useEffect, useState } from "react";
 import { BallChart, BallChartColumn } from "./BallChart";
 
 interface Props {
@@ -65,7 +64,7 @@ export const allBucketsBetween = (
 
 export const groupByYear = (
   buckets: { month: number; year: number; count: number }[],
-  averagePrediction: DateTime
+  medianPrediction: DateTime
 ) => {
   const years = Array.from(new Set(buckets.map((b) => b.year)));
 
@@ -74,14 +73,14 @@ export const groupByYear = (
     return {
       columnTitle: year.toString(),
       value: yearBuckets.reduce((acc, b) => acc + b.count, 0),
-      annotate: year === averagePrediction.year ? { text: "avg" } : undefined,
+      annotate: year === medianPrediction.year ? { text: "median" } : undefined,
     };
   });
 };
 
 export const groupByQuarter = (
   buckets: { month: number; year: number; count: number }[],
-  averagePrediction: DateTime
+  medianPrediction: DateTime
 ) => {
   const years = Array.from(new Set(buckets.map((b) => b.year)));
 
@@ -96,9 +95,9 @@ export const groupByQuarter = (
         columnTitle: `Q${Math.floor(quarter / 3) + 1} ${year}`,
         value: quarterBuckets.reduce((acc, b) => acc + b.count, 0),
         annotate:
-          year === averagePrediction.year &&
-          quarterBuckets.some((b) => b.month === averagePrediction.month)
-            ? { text: "avg" }
+          year === medianPrediction.year &&
+          quarterBuckets.some((b) => b.month === medianPrediction.month)
+            ? { text: "median" }
             : undefined,
       };
     });
@@ -107,7 +106,7 @@ export const groupByQuarter = (
 
 export const groupByDecade = (
   buckets: { month: number; year: number; count: number }[],
-  averagePrediction: DateTime
+  medianPrediction: DateTime
 ) => {
   const startYear = buckets[0].year - (buckets[0].year % 10);
   const endYear =
@@ -127,10 +126,9 @@ export const groupByDecade = (
       value: decadeBuckets.reduce((acc, b) => acc + b.count, 0),
       annotate: decadeBuckets.some(
         (b) =>
-          b.year === averagePrediction.year &&
-          b.month === averagePrediction.month
+          b.year === medianPrediction.year && b.month === medianPrediction.month
       )
-        ? { text: "avg" }
+        ? { text: "median" }
         : undefined,
     };
   });
@@ -144,23 +142,23 @@ interface BallChatBucketThresholds {
 
 export const fitBuckets = (
   buckets: { month: number; year: number; count: number }[],
-  averagePrediction: DateTime,
+  medianPrediction: DateTime,
   thresholds: BallChatBucketThresholds = {
-    decade: 120,
+    decade: 1000,
     year: 60,
     quarter: 24,
   }
 ): BallChartColumn[] => {
   if (buckets.length > thresholds.decade) {
-    return groupByDecade(buckets, averagePrediction);
+    return groupByDecade(buckets, medianPrediction);
   }
 
   if (buckets.length > thresholds.year) {
-    return groupByYear(buckets, averagePrediction);
+    return groupByYear(buckets, medianPrediction);
   }
 
   if (buckets.length > thresholds.quarter) {
-    return groupByQuarter(buckets, averagePrediction);
+    return groupByQuarter(buckets, medianPrediction);
   }
 
   return buckets.map((bucket) => {
@@ -172,9 +170,9 @@ export const fitBuckets = (
       tooltip: `${bucket.count} predictions`,
       value: bucket.count,
       annotate:
-        bucket.year === averagePrediction.year &&
-        bucket.month === averagePrediction.month
-          ? { text: "avg" }
+        bucket.year === medianPrediction.year &&
+        bucket.month === medianPrediction.month
+          ? { text: "median" }
           : undefined,
     };
   });
@@ -199,15 +197,24 @@ export const PhasePredictionChart: React.FC<Props> = ({
   predictionData,
   thresholds,
 }) => {
+  const [show, setShow] = useState(false);
   const predictions = useLivePredictions(phase.supabaseId, predictionData);
+
+  useEffect(() => {
+    if (predictions) {
+      setShow(true);
+    }
+  }, [predictions]);
 
   if (!predictions || predictions.length === 0) {
     return null;
   }
 
-  const averagePrediction = datetimeFromAverageDuration(
-    averageDuration(predictionsToDurationFromNow(predictions))
-  );
+  if (!show) {
+    return null;
+  }
+
+  const medianPrediction = medianPredictionDateTime(predictions);
 
   const buckets = bucketByMonthAndYear(
     removeOutlierPredictions(predictions)
@@ -220,7 +227,7 @@ export const PhasePredictionChart: React.FC<Props> = ({
     return a.year - b.year;
   });
 
-  const columns = fitBuckets(buckets, averagePrediction, thresholds);
+  const columns = fitBuckets(buckets, medianPrediction, thresholds);
 
   return (
     <div className={cn(className)}>

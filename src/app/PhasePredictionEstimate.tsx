@@ -3,8 +3,7 @@
 import { Phase } from "@/data/phases";
 import { Tables } from "@/database.types";
 import {
-  averageDuration,
-  datetimeFromAverageDuration,
+  medianPredictionDateTime,
   predictionsToDurationFromNow,
 } from "@/lib/predictions/aggregate";
 import { useLivePredictions } from "@/lib/predictions/livePredictions";
@@ -25,22 +24,22 @@ export const PhasePredictionEstimate: React.FC<Props> = ({
   }
 
   const durations = predictionsToDurationFromNow(updatedPredictions);
-  const average = averageDuration(durations);
-  const arrival = datetimeFromAverageDuration(average);
+  const median = medianPredictionDateTime(updatedPredictions);
 
   return (
-    <p className="" key={updatedPredictions.length}>
-      <span className="text-sm opacity-50">{phase.title} will arrive in </span>
+    <p className="text-sm text-center" key={updatedPredictions.length}>
+      <span className="opacity-30">{phase.title} arrives in</span>
       <br />
-      <span className="text-xl">
-        {arrival.toFormat("MMM")} {arrival.year}
+      <span className="font-semibold">
+        {median.toFormat("MMM")} {median.year}
       </span>{" "}
-      <span className="text-sm opacity-50">
+      ·{" "}
+      <span className="opacity-50">
         {updatedPredictions.length.toLocaleString("en-us", {
           maximumFractionDigits: 0,
           compactDisplay: "short",
-        })}
-        x
+        })}{" "}
+        predictions
       </span>
     </p>
   );

@@ -1,5 +1,6 @@
 import { PhaseDetails } from "@/app/PhaseDetails";
 import { PhaseHeader } from "@/app/PhaseHeader";
+import { PhaseMilestones } from "@/app/PhaseMilestones";
 import { PhasePredictionChart } from "@/app/PhasePredictionChart";
 import { Card } from "@/components/ui/card";
 import { getPhaseBySlug } from "@/data/phases";
@@ -22,13 +23,14 @@ export default async function Page({ params }: Props) {
   const predictions = await getPredictions(phase.supabaseId);
 
   return (
-    <main className="p-3 md:gap-5 gap-3 grid md:grid-cols-3 md:grid-rows-3 h-[100svh]">
-      <Card className="p-5 md:row-span-3 overflow-y-auto w-full flex flex-col gap-2">
+    <main className="p-3 md:gap-5 gap-3 grid grid-cols-2 md:grid-cols-3 md:grid-rows-3 h-[100svh] w-[calc(70vw*2+48px)] md:w-screen">
+      <Card className="p-5 md:row-span-3 overflow-y-auto flex flex-col gap-2 w-[70vw] md:w-full">
         <PhaseHeader phase={phase} />
+        <PhaseMilestones milestones={phase.milestones} />
         {phase.culture && <PhaseDetails phase={phase} />}
       </Card>
 
-      <Card className="h-[30vh] md:h-full w-full md:col-span-2 md:row-span-3 p-2">
+      <Card className="h-full w-full md:col-span-2 md:row-span-3 p-2">
         <PhasePredictionChart
           phase={phase}
           predictionData={predictions}

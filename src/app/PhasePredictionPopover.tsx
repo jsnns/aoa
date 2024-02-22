@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/dialog";
 import { getPhaseBySupabaseId } from "@/data/phases";
 import { useEffect, useState } from "react";
-import { CheckCircle } from "react-feather";
 import {
   PhasePredictionForm,
   PhasePredictionFormProps,
@@ -47,18 +46,13 @@ export const PhasePredictionPopover: React.FC<Props> = ({
   }
 
   if (hasSubmitted) {
-    return (
-      <div className="flex flex-row gap-2 opacity-50 cursor-not-allowed text-sm items-center">
-        <CheckCircle size={17} />
-        <span>Predicted</span>
-      </div>
-    );
+    return null;
   }
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Predict</Button>
+        <Button>Make a Prediction</Button>
       </DialogTrigger>
       <DialogContent className="">
         <DialogHeader>

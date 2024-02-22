@@ -5,7 +5,7 @@ export const phases = [
     slug: "digital-agi",
     title: "Digital AGI",
     summary:
-      "A human level brain, run in the cloud, capable of all digital tasks including coding, animation, marketing, planning, etc.",
+      "A digital brain capable of expert human performance in all digital tasks including coding, animation, video editing, etc.",
     how_it_starts:
       "AGI is released by an AGI lab to much fanfare, then nothing seems to happen for several months. All at once society breaks under the pressure from human knowledge and creative work being economically worthless.",
     limitations:

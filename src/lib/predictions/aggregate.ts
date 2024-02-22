@@ -55,3 +55,12 @@ export const averagePredictionDateTime = (
   const average = averageDuration(durations);
   return datetimeFromAverageDuration(average);
 };
+
+export const medianPredictionDateTime = (
+  predictions: Tables<"predictions">[]
+) => {
+  const durations = predictionsToDurationFromNow(predictions);
+  const sorted = durations.sort((a, b) => a.years - b.years);
+  const median = sorted[Math.floor(sorted.length / 2)];
+  return datetimeFromAverageDuration(median.years);
+};

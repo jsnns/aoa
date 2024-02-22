@@ -1,4 +1,3 @@
-import { LavaLamp } from "@/components/LavaLamp";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
@@ -45,7 +44,6 @@ export default function RootLayout({
       />
       <body className={font.className}>
         {children}
-        <LavaLamp />
         <Analytics />
         <SpeedInsights />
       </body>
