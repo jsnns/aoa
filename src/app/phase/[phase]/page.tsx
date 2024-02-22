@@ -30,7 +30,7 @@ export default async function Page({ params }: Props) {
         {phase.culture && <PhaseDetails phase={phase} />}
       </Card>
 
-      <Card className="h-full w-full md:col-span-2 md:row-span-3 p-2">
+      <Card className="h-full w-full md:col-span-2 md:row-span-3 p-2 overflow-x-hidden">
         <PhasePredictionChart
           phase={phase}
           predictionData={predictions}
