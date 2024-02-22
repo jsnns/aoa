@@ -23,7 +23,7 @@ export default async function Page({ params }: Props) {
   const predictions = await getPredictions(phase.supabaseId);
 
   return (
-    <main className="grid grid-cols-2 h-[100svh] p-3 gap-3 w-[180vw] md:w-screen md:min-w-[1500px] overflow-y-hidden">
+    <main className="grid grid-cols-2 md:grid-cols-3 h-[100svh] p-3 gap-3 w-[180vw] md:w-screen md:min-w-[1500px] overflow-y-hidden">
       <Card className="p-5 md:row-span-3 overflow-y-auto flex flex-col gap-2">
         <PhaseHeader phase={phase} />
         <PhaseMilestones milestones={phase.milestones} />
