@@ -26,7 +26,7 @@ export default function Home() {
 export async function generateMetadata(): Promise<Metadata> {
   const { data: predictions } = await supabase.from("predictions").select();
 
-  const title = `Eras of AI | ${predictions?.length} Predictions`;
+  const title = `${predictions?.length} Predictions | Three Eras of AI`;
   const description = `Digital, physical, then industrial AGI is coming. Checkout ${predictions?.length} predictions about how long it will take.`;
 
   return {
