@@ -32,7 +32,7 @@ export const Phase: React.FC<Props> = async ({ phase }) => {
 
       <PhasePredictionChart
         phase={phase}
-        className="w-full overflow-y-auto overflow-x-hidden"
+        className="w-full overflow-y-auto overflow-x-hidden grow"
         predictionData={predictions}
       />
 

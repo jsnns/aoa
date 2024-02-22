@@ -25,8 +25,8 @@ export interface BallChartColumn {
 
 export const BallChart: React.FC<Props> = ({ data }) => {
   const [ref, { height, width }] = useMeasure();
-  const ballSize = 18;
-  const ballSpacing = 3;
+  const ballSize = 8;
+  const ballSpacing = 2;
 
   const maxBallsPerColumn = Math.floor((width || 0) / (ballSize + ballSpacing));
   const maxColumns = Math.floor((height || 0) / (ballSize + ballSpacing));
@@ -40,7 +40,7 @@ export const BallChart: React.FC<Props> = ({ data }) => {
     ...column,
     value: Math.min(
       Math.floor((column.value / max) * maxBallsPerColumn),
-      column.value
+      column.value * 2
     ),
     previousValue: column.value,
   }));
@@ -60,7 +60,7 @@ export const BallChart: React.FC<Props> = ({ data }) => {
   return (
     <div
       ref={ref}
-      className="flex flex-col w-full h-full items-center relative"
+      className="flex flex-col w-full h-full items-start relative justify-start"
       style={{ gap: ballSpacing }}
     >
       {columns.map((column, i) => (
