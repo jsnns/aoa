@@ -1,3 +1,4 @@
+import { HeroGradient } from "@/components/HeroGradient";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
@@ -46,6 +47,9 @@ export default function RootLayout({
         {children}
         <Analytics />
         <SpeedInsights />
+        <div className="fixed top-0 bottom-0 left-0 right-0 -z-10">
+          <HeroGradient colors={["#000", "#0a0a0a", "#1f1f1f", "#242424"]} />
+        </div>
       </body>
     </html>
   );
