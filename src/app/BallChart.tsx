@@ -36,12 +36,13 @@ export const BallChart: React.FC<Props> = ({ data }) => {
 
   // normalize columns
   const max = Math.max(...data.map((c) => c.value));
+  const anyOverMax = data.some((c) => c.value > maxBallsPerColumn);
+
   const columns = data.map((column) => ({
     ...column,
-    value: Math.min(
-      Math.floor((column.value / max) * maxBallsPerColumn),
-      column.value * 2
-    ),
+    value: anyOverMax
+      ? Math.floor((column.value / max) * maxBallsPerColumn)
+      : column.value * 2,
     previousValue: column.value,
   }));
 
