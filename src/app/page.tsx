@@ -1,4 +1,6 @@
 import { phases } from "@/data/phases";
+import { supabase } from "@/lib/supabase";
+import { Metadata } from "next";
 import { Phase } from "./Phase";
 import { ScrollAdapter } from "./ScrollAdapter";
 
@@ -19,4 +21,29 @@ export default function Home() {
       </div>
     </main>
   );
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const { data: predictions } = await supabase.from("predictions").select();
+
+  const title = `Eras of AI | ${predictions?.length} Predictions`;
+  const description = `Digital, physical, then industrial AGI is coming. Checkout ${predictions?.length} predictions about how long it will take.`;
+
+  return {
+    metadataBase: new URL(process.env.DOMAIN || ""),
+    title,
+    description,
+    openGraph: {
+      images: ["/og?phase=digital-agi"],
+      title,
+      description,
+      type: "website",
+      url: new URL(process.env.DOMAIN || ""),
+    },
+    twitter: {
+      images: ["/og?phase=digital-agi"],
+      title,
+      description,
+    },
+  };
 }

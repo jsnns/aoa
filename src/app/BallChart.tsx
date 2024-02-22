@@ -66,7 +66,7 @@ export const BallChart: React.FC<Props> = ({ data }) => {
       {columns.map((column, i) => (
         <TooltipProvider key={i}>
           <Tooltip delayDuration={0}>
-            <TooltipTrigger className="w-full flex flex-col items-center justify-center hover:bg-gray-100">
+            <TooltipTrigger className="w-full flex flex-col items-center justify-center hover:bg-white hover:bg-opacity-10">
               <div
                 className="flex flex-row items-center justify-center w-full"
                 style={{ gap: ballSpacing }}
@@ -74,7 +74,7 @@ export const BallChart: React.FC<Props> = ({ data }) => {
                 {column.annotate && (
                   // flag
                   <div
-                    className="absolute left-0 right-0 bg-gray-50 annotation-enter flex flex-row items-center justify-start px-2"
+                    className="absolute left-0 right-0 bg-white bg-opacity-10 annotation-enter flex flex-row items-center justify-start px-2"
                     style={{
                       height: ballSize + ballSpacing,
                       animationDelay: `${maxAnimationDelay + 500}ms`,
@@ -100,7 +100,7 @@ export const BallChart: React.FC<Props> = ({ data }) => {
                   <Ball
                     size={ballSize}
                     color=""
-                    className="opacity-10 bg-foreground empty-ball-enter"
+                    className="opacity-25 bg-foreground empty-ball-enter"
                     style={{ animationDelay: `${maxAnimationDelay + 1000}ms` }}
                   />
                 )}

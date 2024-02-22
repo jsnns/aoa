@@ -28,11 +28,11 @@ export async function GET(request: Request) {
     (
       <div
         style={{
-          color: "hsl(222.2 84% 4.9%)",
-          background: "hsl(210 40% 98%)",
+          color: "hsl(210 40% 98%)",
+          background: "hsl(222.2 84% 4.9%)",
           width: "100%",
           height: "100%",
-          padding: "50px 100px",
+          padding: "50px 200px",
           textAlign: "center",
           justifyContent: "center",
           alignItems: "center",
@@ -50,18 +50,34 @@ export async function GET(request: Request) {
           }}
         >
           <svg width="24" height="24">
-            <circle cx="12" cy="12" r="12" fill="#00000025" />
+            <circle cx="12" cy="12" r="12" fill="#3B82F6" />
           </svg>
           <svg width="24" height="24">
-            <circle cx="12" cy="12" r="12" fill="#00000050" />
+            <circle cx="12" cy="12" r="12" fill="#3B82F6" />
           </svg>
           <svg width="24" height="24">
-            <circle cx="12" cy="12" r="12" fill="#00000075" />
+            <circle cx="12" cy="12" r="12" fill="#3B82F6" />
           </svg>
         </div>
-        <p style={{ fontSize: 64 }}>
-          {phase.title} by {medianPrediction.toFormat("MMM yyyy")}
-        </p>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+            alignItems: "center",
+          }}
+        >
+          <p style={{ fontSize: 32, marginBottom: 0, opacity: 0.5 }}>
+            Based on{" "}
+            {(predictions?.length || 0).toLocaleString(undefined, {
+              maximumFractionDigits: 0,
+            })}{" "}
+            predictions
+          </p>
+          <p style={{ fontSize: 64, marginTop: 0 }}>
+            {phase.title} by {medianPrediction.toFormat("MMM yyyy")}
+          </p>
+        </div>
         <p style={{ fontSize: 32 }}>{phase.summary}</p>
       </div>
     ),

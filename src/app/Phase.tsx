@@ -24,7 +24,7 @@ export const Phase: React.FC<Props> = async ({ phase }) => {
         <PhaseHeader phase={phase} />
         <Link
           href={`/phase/${phase.slug}`}
-          className="text-sm underline underline-offset-1 opacity-75"
+          className="text-sm underline-offset-1 opacity-50 italic"
         >
           Read More
         </Link>
