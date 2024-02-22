@@ -50,13 +50,25 @@ export async function GET(request: Request) {
           }}
         >
           <svg width="24" height="24">
-            <circle cx="12" cy="12" r="12" fill="#3B82F6" />
+            <circle
+              cx="12"
+              cy="12"
+              r="12"
+              fill="hsl(210 40% 98%)"
+              opacity={0.3}
+            />
           </svg>
           <svg width="24" height="24">
-            <circle cx="12" cy="12" r="12" fill="#3B82F6" />
+            <circle
+              cx="12"
+              cy="12"
+              r="12"
+              fill="hsl(210 40% 98%)"
+              opacity={0.6}
+            />
           </svg>
           <svg width="24" height="24">
-            <circle cx="12" cy="12" r="12" fill="#3B82F6" />
+            <circle cx="12" cy="12" r="12" fill="hsl(210 40% 98%)" />
           </svg>
         </div>
         <div
