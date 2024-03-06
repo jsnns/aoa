@@ -41,7 +41,7 @@ export const phases = [
     slug: "industrial-agi",
     title: "Industrial AGI",
     summary:
-      "Cooporative swarms of AGI robots and drones capable of greatly exceeding human productivity.",
+      "Cooperative swarms of AGI robots and drones capable of greatly exceeding human productivity.",
     how_it_starts: "",
     limitations: "",
     capabilities: ``,
